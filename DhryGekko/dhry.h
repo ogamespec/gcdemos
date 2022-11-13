@@ -367,7 +367,7 @@
 #ifdef GC_TIME
 #include <dolphin/os.h>
 #undef TIMES
-#define HZ OS_TIMER_CLOCK
+#define HZ 1000
 #endif
         /* Use DolphinSDK Real-time Clock API */
 

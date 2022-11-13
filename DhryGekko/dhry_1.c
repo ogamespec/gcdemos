@@ -155,7 +155,8 @@ void* Dhrystone_main (void * param)
   Begin_Time = clock();
 #endif
 #ifdef GC_TIME
-  Begin_Time = OSGetTime();
+  Begin_Time = OSTicksToMilliseconds(OSGetTime());
+  printf ("Begin_Time: %lld\n", Begin_Time);
 #endif
 
   for (Run_Index = 1; Run_Index <= Number_Of_Runs; ++Run_Index)
@@ -219,7 +220,8 @@ void* Dhrystone_main (void * param)
   End_Time = clock();
 #endif
 #ifdef GC_TIME
-  End_Time = OSGetTime();
+  End_Time = OSTicksToMilliseconds(OSGetTime());
+  printf ("End_Time: %lld\n", End_Time);
 #endif
 
 #if 0
@@ -284,6 +286,8 @@ void* Dhrystone_main (void * param)
     printf ("Measured time too small to obtain meaningful results\n");
     printf ("Please increase number of runs\n");
     printf ("\n");
+
+    my_printf ("Please increase number of runs\n");
   }
   else
   {
@@ -296,10 +300,8 @@ void* Dhrystone_main (void * param)
                         / ((float) HZ * ((float) Number_Of_Runs));
     Dhrystones_Per_Second = (((float) HZ * (float) Number_Of_Runs)
                         / (float) User_Time);
-
 // Divide by 1757 - to VAX
 // Dhrystones_Per_Second /= 1757;
-
 #endif
     //printf ("Microseconds for one run through Dhrystone: ");          // Can be 0, useless
     //printf ("%6.1f \n", Microseconds);
