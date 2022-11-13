@@ -20,7 +20,7 @@
 #include "video.h"
 
 #ifndef DHRY_ITERS
-#define DHRY_ITERS 2000
+#define DHRY_ITERS 2000000
 #endif
 
 #define malloc OSAlloc
@@ -301,7 +301,7 @@ void* Dhrystone_main (void * param)
     Dhrystones_Per_Second = (((float) HZ * (float) Number_Of_Runs)
                         / (float) User_Time);
 // Divide by 1757 - to VAX
-// Dhrystones_Per_Second /= 1757;
+    Dhrystones_Per_Second /= 1757;
 #endif
     //printf ("Microseconds for one run through Dhrystone: ");          // Can be 0, useless
     //printf ("%6.1f \n", Microseconds);
