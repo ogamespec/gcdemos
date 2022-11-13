@@ -44,7 +44,7 @@ void main(void)
 	OSCreateThread(&thread_ctx, test_gekko, 0, thread_stack + sizeof(thread_stack), sizeof(thread_stack), 31, OS_THREAD_ATTR_DETACH);
 	OSResumeThread(&thread_ctx);
 
-	my_printf("Welcome to Gamecube exploration demo.\n");
+	my_printf("Welcome to GameCube exploration demo.\n");
 	
 	while(!OSIsThreadTerminated(&thread_ctx))
 	{

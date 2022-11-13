@@ -9,7 +9,6 @@
 #include <stdio.h>
 #include <string.h>
 #include "video.h"
-#include "gc_logo.h"
 #include "../Common/gc_font.h"
 
 /* Framebuffer for video rendering purposes. */
@@ -156,28 +155,8 @@ static void put_char(char c, int xstart, int ystart)
 	}    
 }
 
-void put_logo(void)
-{
-	int y, linesiz;
-	u8 *fb;
-	fb = (vid_frame & 1) ? xfb[1] : xfb[0];
-	linesiz = VIPadFrameBufferWidth(render_mode->fbWidth) * VI_DISPLAY_PIX_SZ;    
-	
-	for(y=0; y<GC_LOGO_HEIGHT; y++)
-	{
-		fill_line(y, COLOR_DKGRAY);
-	}
-	
-	for(y=0; y<GC_LOGO_HEIGHT; y++)
-	{
-		memcpy(fb, &gc_logo[y * GC_LOGO_WIDTH], GC_LOGO_WIDTH * VI_DISPLAY_PIX_SZ);
-		DCStoreRange(fb, OSRoundUp32B(GC_LOGO_WIDTH * VI_DISPLAY_PIX_SZ));
-		fb += linesiz;
-	}
-}
-
 /*
- * Draw (screen height - LOGO) lines from 'message_roller' location (limited by LINES).
+ * Draw (screen height) lines from 'message_roller' location (limited by LINES).
  *             -------------------   0
  *            |      MESSAGE      |  .
  *            |      BUFFER       |  .
@@ -194,7 +173,7 @@ void update_message_buf(void)
 {
 	int line, y, roller, c, len;
  
-	for(line=GC_LOGO_HEIGHT/GC_FONT_HEIGHT, roller=message_roller; line<render_mode->xfbHeight/GC_FONT_HEIGHT; line++, roller++)
+	for(line=0, roller=message_roller; line<render_mode->xfbHeight/GC_FONT_HEIGHT; line++, roller++)
 	{
 		for(y=0; y<GC_FONT_HEIGHT; y++)
 		{
@@ -219,7 +198,7 @@ static void add_line(char *text)
 	}    
 	strncpy(message_buf[message_line], text, LINE_WIDTH);
 	message_line++;
-	if((message_line - message_roller) >= (render_mode->xfbHeight/GC_FONT_HEIGHT) - (GC_LOGO_HEIGHT/GC_FONT_HEIGHT))
+	if((message_line - message_roller) >= (render_mode->xfbHeight/GC_FONT_HEIGHT))
 	{
 		message_roller++;
 	}
